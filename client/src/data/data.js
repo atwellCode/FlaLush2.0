@@ -1,0 +1,478 @@
+// productData.js
+
+export const products = [
+  {
+    id: 1,
+    name: "Radiant Glow Serum",
+    category: "Serums",
+    price: 68,
+    oldPrice: 84,
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Intensive glow-boosting formula with Vitamin C.",
+    description:
+      "This powerful serum combines Vitamin C, Hyaluronic Acid, and Ferulic Acid to brighten skin, reduce dark spots, and improve elasticity.",
+    badge: "Bestseller",
+    inStock: true,
+    ingredients: ["Vitamin C", "Hyaluronic Acid", "Ferulic Acid", "Vitamin E"],
+    howToUse:
+      "Apply 3-5 drops to clean skin morning and night before moisturizer.",
+    reviews: [
+      { name: "Alice", rating: 5, comment: "Amazing glow after one week!" },
+      { name: "Bob", rating: 4, comment: "Very lightweight serum." },
+    ],
+  },
+
+  {
+    id: 2,
+    name: "Hydra Boost Moisturizer",
+    category: "Moisturizers",
+    price: 52,
+    oldPrice: 65,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Deep hydration for dry skin.",
+    description:
+      "A rich moisturizer infused with ceramides and hyaluronic acid to lock in moisture for up to 48 hours.",
+    badge: "New",
+    inStock: true,
+    ingredients: ["Ceramides", "Hyaluronic Acid", "Shea Butter"],
+    howToUse: "Massage onto face and neck after cleansing.",
+    reviews: [
+      { name: "Emma", rating: 5, comment: "Perfect for winter." },
+      { name: "Lily", rating: 4, comment: "Very nourishing." },
+    ],
+  },
+
+  {
+    id: 3,
+    name: "Velvet Matte Lipstick",
+    category: "Makeup",
+    price: 24,
+    oldPrice: 32,
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Long-lasting matte finish.",
+    description:
+      "Creamy matte lipstick enriched with jojoba oil for comfortable all-day wear.",
+    badge: "Trending",
+    inStock: true,
+    ingredients: ["Jojoba Oil", "Vitamin E", "Natural Wax"],
+    howToUse: "Apply directly to lips.",
+    reviews: [
+      { name: "Sarah", rating: 5, comment: "Beautiful color!" },
+      { name: "Anna", rating: 4, comment: "Smooth texture." },
+    ],
+  },
+
+  {
+    id: 4,
+    name: "Rose Water Toner",
+    category: "Toners",
+    price: 28,
+    oldPrice: 35,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Refreshing alcohol-free toner.",
+    description:
+      "Balances skin pH while calming redness and tightening pores.",
+    badge: "Organic",
+    inStock: true,
+    ingredients: ["Rose Water", "Aloe Vera", "Chamomile"],
+    howToUse: "Apply using a cotton pad after cleansing.",
+    reviews: [
+      { name: "Mia", rating: 5, comment: "Very refreshing." },
+      { name: "Grace", rating: 4, comment: "Love the scent." },
+    ],
+  },
+
+  {
+    id: 5,
+    name: "Charcoal Detox Cleanser",
+    category: "Cleansers",
+    price: 34,
+    oldPrice: 42,
+    rating: 4.6,
+    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Purifies and unclogs pores.",
+    description:
+      "Activated charcoal removes dirt, oil, and impurities without drying skin.",
+    badge: "Popular",
+    inStock: true,
+    ingredients: ["Charcoal", "Tea Tree Oil", "Aloe Vera"],
+    howToUse: "Massage onto damp skin and rinse.",
+    reviews: [
+      { name: "Olivia", rating: 5, comment: "Great for oily skin." },
+      { name: "David", rating: 4, comment: "Leaves skin clean." },
+    ],
+  },
+
+  {
+    id: 6,
+    name: "SPF 50 Daily Sunscreen",
+    category: "Sunscreens",
+    price: 39,
+    oldPrice: 49,
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1556228578-dd6a486a5d8c?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1556228578-dd6a486a5d8c?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Broad-spectrum UV protection.",
+    description:
+      "Lightweight sunscreen that protects against UVA and UVB rays with no white cast.",
+    badge: "Editor's Pick",
+    inStock: true,
+    ingredients: ["Zinc Oxide", "Vitamin E", "Niacinamide"],
+    howToUse: "Apply generously 15 minutes before sun exposure.",
+    reviews: [
+      { name: "Chris", rating: 5, comment: "No greasy finish." },
+      { name: "Nina", rating: 5, comment: "Perfect under makeup." },
+    ],
+  },
+
+  {
+    id: 7,
+    name: "Collagen Night Cream",
+    category: "Moisturizers",
+    price: 61,
+    oldPrice: 75,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1626784215021-2e39ccf971cd?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1626784215021-2e39ccf971cd?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Repairs skin overnight.",
+    description:
+      "Rich overnight cream formulated with marine collagen and peptides.",
+    badge: "Luxury",
+    inStock: true,
+    ingredients: ["Collagen", "Peptides", "Shea Butter"],
+    howToUse: "Apply before bedtime.",
+    reviews: [
+      { name: "Sophia", rating: 5, comment: "Skin feels soft." },
+      { name: "Ella", rating: 4, comment: "Worth every penny." },
+    ],
+  },
+
+  {
+    id: 8,
+    name: "Vitamin C Face Wash",
+    category: "Cleansers",
+    price: 26,
+    oldPrice: 33,
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Brightens and refreshes.",
+    description:
+      "Gentle foaming cleanser that removes dirt while enhancing natural radiance.",
+    badge: "Sale",
+    inStock: true,
+    ingredients: ["Vitamin C", "Orange Extract", "Aloe Vera"],
+    howToUse: "Use morning and evening.",
+    reviews: [
+      { name: "Mason", rating: 5, comment: "Fresh feeling." },
+      { name: "Lucy", rating: 4, comment: "Great cleanser." },
+    ],
+  },
+
+  {
+    id: 9,
+    name: "Golden Glow Face Oil",
+    category: "Face Oils",
+    price: 58,
+    oldPrice: 72,
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1611930021592-a8cfd5319ceb?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Luxury botanical face oil.",
+    description:
+      "Restores skin barrier and gives a healthy luminous finish.",
+    badge: "Premium",
+    inStock: true,
+    ingredients: ["Argan Oil", "Rosehip Oil", "Squalane"],
+    howToUse: "Apply 2-3 drops after moisturizer.",
+    reviews: [
+      { name: "Ava", rating: 5, comment: "Love this oil!" },
+      { name: "John", rating: 5, comment: "Excellent quality." },
+    ],
+  },
+
+  {
+    id: 10,
+    name: "Hydrating Sheet Mask",
+    category: "Masks",
+    price: 12,
+    oldPrice: 18,
+    rating: 4.6,
+    image: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=500&h=500&fit=crop&crop=center",
+    images: [
+      "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=500&h=500&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&h=500&fit=crop&crop=center",
+    ],
+    shortDescription: "Instant hydration boost.",
+    description:
+      "Infused with hyaluronic acid for deeply moisturized skin in 15 minutes.",
+    badge: "Limited",
+    inStock: true,
+    ingredients: ["Hyaluronic Acid", "Green Tea", "Aloe Vera"],
+    howToUse: "Leave on for 15-20 minutes.",
+    reviews: [
+      { name: "Kate", rating: 5, comment: "Spa at home." },
+      { name: "Luna", rating: 4, comment: "Very hydrating." },
+    ],
+  },
+
+  {
+    id: 11,
+    name: "Niacinamide Serum",
+    category: "Serums",
+    price: 42,
+    oldPrice: 55,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1601049676869-702ea24cfd58?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1601049676869-702ea24cfd58?w=500",
+      "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500",
+    ],
+    shortDescription: "Minimizes pores and controls oil.",
+    description: "Perfect for acne-prone and combination skin.",
+    badge: "Popular",
+    inStock: true,
+    ingredients: ["Niacinamide", "Zinc PCA"],
+    howToUse: "Apply twice daily.",
+    reviews: [
+      { name: "Noah", rating: 5, comment: "Reduced my pores." },
+      { name: "Emma", rating: 4, comment: "Works well." },
+    ],
+  },
+
+  {
+    id: 12,
+    name: "Retinol Renewal Cream",
+    category: "Moisturizers",
+    price: 72,
+    oldPrice: 89,
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0f?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0f?w=500",
+      "https://images.unsplash.com/photo-1556228578-dd6a486a5d8c?w=500",
+    ],
+    shortDescription: "Anti-aging overnight cream.",
+    description: "Smooths wrinkles and boosts collagen production.",
+    badge: "Luxury",
+    inStock: true,
+    ingredients: ["Retinol", "Peptides", "Vitamin E"],
+    howToUse: "Use at night only.",
+    reviews: [
+      { name: "Sophie", rating: 5, comment: "Skin feels firmer." },
+    ],
+  },
+
+  {
+    id: 13,
+    name: "Aloe Vera Gel",
+    category: "Skin Care",
+    price: 18,
+    oldPrice: 24,
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500",
+    ],
+    shortDescription: "Soothes irritated skin.",
+    description: "100% pure aloe vera gel for face and body.",
+    badge: "Natural",
+    inStock: true,
+    ingredients: ["Aloe Vera"],
+    howToUse: "Apply generously as needed.",
+    reviews: [
+      { name: "Amelia", rating: 5, comment: "Very soothing." },
+    ],
+  },
+
+  {
+    id: 14,
+    name: "Coffee Face Scrub",
+    category: "Exfoliators",
+    price: 30,
+    oldPrice: 38,
+    rating: 4.6,
+    image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=500",
+    ],
+    shortDescription: "Removes dead skin cells.",
+    description: "Natural coffee scrub with walnut shell powder.",
+    badge: "Eco",
+    inStock: true,
+    ingredients: ["Coffee", "Walnut", "Coconut Oil"],
+    howToUse: "Use twice weekly.",
+    reviews: [
+      { name: "Jack", rating: 5, comment: "Skin feels smooth." },
+    ],
+  },
+
+  {
+    id: 15,
+    name: "Pink Clay Mask",
+    category: "Masks",
+    price: 36,
+    oldPrice: 46,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=500",
+    ],
+    shortDescription: "Detoxifies and brightens.",
+    description: "Australian pink clay draws out impurities.",
+    badge: "Trending",
+    inStock: true,
+    ingredients: ["Pink Clay", "Kaolin"],
+    howToUse: "Leave on for 10 minutes.",
+    reviews: [
+      { name: "Bella", rating: 5, comment: "Face feels fresh." },
+    ],
+  },
+
+  {
+    id: 16,
+    name: "Luxury Body Butter",
+    category: "Body Care",
+    price: 44,
+    oldPrice: 55,
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500",
+    ],
+    shortDescription: "Ultra-rich body moisturizer.",
+    description: "Made with cocoa butter and shea butter.",
+    badge: "Best Seller",
+    inStock: true,
+    ingredients: ["Shea Butter", "Cocoa Butter"],
+    howToUse: "Massage daily after shower.",
+    reviews: [
+      { name: "Rose", rating: 5, comment: "Super soft skin." },
+    ],
+  },
+
+  {
+    id: 17,
+    name: "Hyaluronic Eye Cream",
+    category: "Eye Care",
+    price: 41,
+    oldPrice: 52,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500",
+    ],
+    shortDescription: "Reduces puffiness and dark circles.",
+    description: "Hydrates delicate under-eye skin.",
+    badge: "Premium",
+    inStock: true,
+    ingredients: ["Hyaluronic Acid", "Caffeine"],
+    howToUse: "Tap gently around eyes.",
+    reviews: [
+      { name: "Henry", rating: 5, comment: "Looks brighter." },
+    ],
+  },
+
+  {
+    id: 18,
+    name: "Natural Lip Balm",
+    category: "Lip Care",
+    price: 14,
+    oldPrice: 20,
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500",
+    ],
+    shortDescription: "Repairs dry lips.",
+    description: "Made with beeswax and coconut oil.",
+    badge: "Organic",
+    inStock: true,
+    ingredients: ["Beeswax", "Coconut Oil"],
+    howToUse: "Apply whenever needed.",
+    reviews: [
+      { name: "Ruby", rating: 5, comment: "Very moisturizing." },
+    ],
+  },
+
+  {
+    id: 19,
+    name: "Silk Foundation",
+    category: "Makeup",
+    price: 48,
+    oldPrice: 60,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500",
+    ],
+    shortDescription: "Medium to full coverage.",
+    description: "Natural satin finish for all-day wear.",
+    badge: "Hot",
+    inStock: true,
+    ingredients: ["Vitamin E", "SPF 15"],
+    howToUse: "Blend using brush or sponge.",
+    reviews: [
+      { name: "Mila", rating: 5, comment: "Looks flawless." },
+    ],
+  },
+
+  {
+    id: 20,
+    name: "Botanical Facial Mist",
+    category: "Toners",
+    price: 25,
+    oldPrice: 34,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500",
+    images: [
+      "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500",
+    ],
+    shortDescription: "Instant hydration throughout the day.",
+    description: "Refreshing facial mist with rose water and cucumber extract.",
+    badge: "Fresh",
+    inStock: true,
+    ingredients: ["Rose Water", "Cucumber", "Glycerin"],
+    howToUse: "Spray onto face whenever needed.",
+    reviews: [
+      { name: "Aiden", rating: 5, comment: "Great for travel." },
+      { name: "Emily", rating: 4, comment: "Very refreshing." },
+    ],
+  },
+];
