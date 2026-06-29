@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -50,13 +50,37 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Close mobile menu on escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        setSearchOpen(false);
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-gradient-to-r from-rose-600/95 to-rose-700/95 backdrop-blur-xl shadow-2xl"
-          : "bg-gradient-to-r from-rose-600 to-rose-700 shadow-lg"
-      }`}
+      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
+        ? "bg-gradient-to-r from-rose-600/95 to-rose-700/95 backdrop-blur-xl shadow-2xl"
+        : "bg-gradient-to-r from-rose-600 to-rose-700 shadow-lg"
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
@@ -78,39 +102,41 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8 font-['Manrope']">
-            {navLinks.map((item) => (
-              <NavLink
-                key={item.name}
-                to={item.path}
-                className={({ isActive }) =>
-                  `relative font-medium text-white transition-colors duration-300 ${
-                    isActive ? "text-rose-100" : "hover:text-rose-100"
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    {item.name}
-                    {/* Animated underline */}
-                    <motion.span
-                      className="absolute -bottom-1 left-0 h-0.5 bg-rose-200 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: isActive ? "100%" : "0%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                    {/* Hover underline (non-active) */}
-                    {!isActive && (
+            {navLinks.map((item) => {
+              const isActive = (match) => !!match;
+              return (
+                <NavLink
+                  key={item.name}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `relative font-medium text-white transition-colors duration-300 ${isActive ? "text-rose-100" : "hover:text-rose-100"
+                    }`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      {item.name}
+                      {/* Animated underline - active */}
                       <motion.span
-                        className="absolute -bottom-1 left-0 h-0.5 bg-rose-200/50 rounded-full"
+                        className="absolute -bottom-1 left-0 h-0.5 bg-rose-200 rounded-full"
                         initial={{ width: 0 }}
-                        whileHover={{ width: "100%" }}
+                        animate={{ width: isActive ? "100%" : "0%" }}
                         transition={{ duration: 0.3 }}
                       />
-                    )}
-                  </>
-                )}
-              </NavLink>
-            ))}
+                      {/* Hover underline - non-active */}
+                      {!isActive && (
+                        <motion.span
+                          className="absolute -bottom-1 left-0 h-0.5 bg-rose-200/50 rounded-full"
+                          initial={{ width: 0 }}
+                          whileHover={{ width: "100%" }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              );
+            })}
           </nav>
 
           {/* Desktop Icons + Search */}
@@ -130,7 +156,7 @@ const Navbar = () => {
                     initial={{ opacity: 0, scale: 0.9, y: -10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: -10 }}
-                    className="absolute right-0 top-full mt-3 w-72 bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-rose-200/30 p-2"
+                    className="absolute right-0 top-full mt-3 w-72 bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-rose-200/30 p-2 overflow-hidden"
                   >
                     <input
                       type="text"
@@ -148,7 +174,7 @@ const Navbar = () => {
               className="text-xl transition hover:text-rose-100 relative"
             >
               <FaHeart />
-              <span className="absolute -top-1 -right-2 flex h-3 w-3 items-center justify-center rounded-full bg-amber-300 text-[8px] font-bold text-rose-600">
+              <span className="absolute -top-2 -right-3 flex h-4 w-4 items-center justify-center rounded-full bg-amber-300 text-[10px] font-bold text-rose-600">
                 3
               </span>
             </NavLink>
@@ -163,7 +189,7 @@ const Navbar = () => {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="absolute -top-2 -right-3 flex h-5 w-5 items-center justify-center rounded-full bg-amber-300 text-[10px] font-bold text-rose-600"
+                className="absolute -top-2 -right-3 flex h-4 w-4 items-center justify-center rounded-full bg-amber-300 text-[10px] font-bold text-rose-600"
               >
                 2
               </motion.span>
@@ -174,6 +200,7 @@ const Navbar = () => {
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-1 text-xl transition hover:text-rose-100"
+                aria-label="User menu"
               >
                 <FaUser />
                 <FaChevronDown className="text-xs" />
@@ -198,7 +225,7 @@ const Navbar = () => {
                       className="block px-4 py-2 text-gray-700 hover:bg-rose-50 transition"
                       onClick={() => setDropdownOpen(false)}
                     >
-                      Orders
+                      My Orders
                     </NavLink>
                     <NavLink
                       to="/wishlist"
@@ -224,6 +251,7 @@ const Navbar = () => {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="text-2xl text-white md:hidden transition-transform duration-300"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             {menuOpen ? <FaTimes /> : <FaBars />}
           </button>
@@ -257,19 +285,19 @@ const Navbar = () => {
                 <button
                   onClick={() => setMenuOpen(false)}
                   className="text-2xl text-white hover:text-rose-100 transition"
+                  aria-label="Close menu"
                 >
                   <FaTimes />
                 </button>
               </div>
-              <nav className="flex flex-col gap-4 px-6 py-8 flex-1">
+              <nav className="flex flex-col gap-4 px-6 py-8 flex-1 overflow-y-auto">
                 {navLinks.map((item) => (
                   <NavLink
                     key={item.name}
                     to={item.path}
                     onClick={() => setMenuOpen(false)}
                     className={({ isActive }) =>
-                      `text-lg font-medium transition text-white ${
-                        isActive ? "text-rose-100" : "hover:text-rose-100"
+                      `text-lg font-medium transition text-white ${isActive ? "text-rose-100" : "hover:text-rose-100"
                       }`
                     }
                   >

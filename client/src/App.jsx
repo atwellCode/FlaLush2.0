@@ -11,6 +11,8 @@ import Checkout from "./pages/CheckOut";
 import Login from "./pages/Login";
 import ScrollToTop from "./layout/ScrollToTop";
 import ProductDetail from "./components/ProductDetail";
+import Profile from "./pages/Profile";
+import Orders from "./pages/Orders";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
            <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="login" element={<Login />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="/orders" element={<Orders />} />
 
         </Route>
 

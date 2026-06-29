@@ -25,7 +25,7 @@ const FeaturedCollections = () => {
   };
 
   return (
-    <section className="relative py-24 px-6 bg-gradient-to-b from-white via-rose-50/30 to-white overflow-hidden">
+    <section className="relative py-24 px-6 bg-linear-to-b from-white via-rose-50/30 to-white overflow-hidden">
       {/* decorative orbs (same as before) */}
       <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-rose-200/20 blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-pink-200/20 blur-3xl pointer-events-none" />
@@ -49,7 +49,7 @@ const FeaturedCollections = () => {
             <span>Curated for Radiance</span>
           </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-500">Luxury Collections</span>
+            Our <span className="text-transparent bg-clip-text bg-linear-to-r from-rose-500 to-pink-500">Luxury Collections</span>
           </h2>
           <p className="mt-4 text-gray-500 max-w-2xl mx-auto text-lg font-light">
             Discover our most coveted skincare essentials.
