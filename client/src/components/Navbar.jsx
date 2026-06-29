@@ -313,11 +313,19 @@ const Navbar = () => {
                   <FaHeart /> Wishlist
                 </NavLink>
                 <NavLink
-                  to="/checkout"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center gap-3 text-white transition hover:text-rose-100"
+                  to="/cart"
+                  className="relative text-xl transition hover:text-rose-100"
                 >
-                  <FaShoppingCart /> Cart
+                  <FaShoppingCart />
+                  <motion.span
+                    key={2}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="absolute -top-2 -right-3 flex h-5 w-5 items-center justify-center rounded-full bg-amber-300 text-[10px] font-bold text-rose-600"
+                  >
+                    {cartItemsCount}
+                  </motion.span>
                 </NavLink>
                 <NavLink
                   to="/login"

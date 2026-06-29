@@ -13,6 +13,7 @@ import ScrollToTop from "./layout/ScrollToTop";
 import ProductDetail from "./components/ProductDetail";
 import Profile from "./pages/Profile";
 import Orders from "./pages/Orders";
+import Cart from "./components/Cart";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="profile" element={<Profile />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/cart" element={<Cart />} />
 
         </Route>
 
