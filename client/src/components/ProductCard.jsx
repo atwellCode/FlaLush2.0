@@ -1,10 +1,15 @@
 // ProductCard.jsx
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaArrowRight, FaStar } from "react-icons/fa";
+import { FaArrowRight, FaStar, FaShoppingBag, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const ProductCard = ({ product, index }) => {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const [added, setAdded] = useState(false);
+
   const {
     id,
     name,
@@ -34,6 +39,22 @@ const ProductCard = ({ product, index }) => {
 
   // Navigate to product detail page
   const handleCardClick = () => {
+    navigate(`/product/${id}`);
+  };
+
+  // Handle Add to Cart
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    if (inStock) {
+      addToCart(product, 1);
+      setAdded(true);
+      setTimeout(() => setAdded(false), 2000);
+    }
+  };
+
+  // Handle View Product
+  const handleViewProduct = (e) => {
+    e.stopPropagation();
     navigate(`/product/${id}`);
   };
 
@@ -86,6 +107,20 @@ const ProductCard = ({ product, index }) => {
             <span className="text-white font-bold text-lg tracking-widest">OUT OF STOCK</span>
           </div>
         )}
+
+        {/* Added to cart feedback overlay */}
+        {added && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-emerald-500/80 backdrop-blur-sm flex items-center justify-center"
+          >
+            <span className="text-white font-bold text-sm flex items-center gap-2">
+              <FaShoppingBag /> Added to Cart!
+            </span>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* Content - fixed height with flex-grow */}
@@ -112,24 +147,38 @@ const ProductCard = ({ product, index }) => {
           {shortDescription}
         </p>
 
-        {/* Button stays at bottom */}
-        <motion.button
-          whileHover={{ scale: 1.05, x: 4 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={(e) => {
-            e.stopPropagation(); // prevent card click from firing twice
-            handleCardClick();
-          }}
-          disabled={!inStock}
-          className={`mt-4 w-full py-2.5 rounded-full font-medium flex items-center justify-center gap-2 shadow-md transition-all text-sm ${
-            inStock
-              ? "bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-rose-500/20 hover:shadow-rose-500/40"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
-        >
-          <span>{inStock ? "Shop Now" : "Unavailable"}</span>
-          {inStock && <FaArrowRight className="text-xs" />}
-        </motion.button>
+        {/* Two Buttons */}
+        <div className="mt-4 flex gap-2">
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleAddToCart}
+            disabled={!inStock || added}
+            className={`flex-1 py-2 rounded-full font-medium flex items-center justify-center gap-2 shadow-md transition-all text-sm ${
+              inStock && !added
+                ? "bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-rose-500/20 hover:shadow-rose-500/40"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
+          >
+            <FaShoppingBag className="text-xs" />
+            <span>{added ? "Added!" : "Add to Cart"}</span>
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleViewProduct}
+            disabled={!inStock}
+            className={`flex-1 py-2 rounded-full font-medium flex items-center justify-center gap-2 shadow-md transition-all text-sm ${
+              inStock
+                ? "bg-white border-2 border-rose-500 text-rose-500 hover:bg-rose-50"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed border-2 border-gray-300"
+            }`}
+          >
+            <FaEye className="text-xs" />
+            <span>View</span>
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );

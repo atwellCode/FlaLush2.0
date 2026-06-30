@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCart } from "../context/CartContext";
 import {
   FaTrashAlt,
   FaPlus,
@@ -10,91 +11,39 @@ import {
   FaArrowLeft,
   FaArrowRight,
   FaTag,
-  FaGift,
   FaTruck,
   FaLock,
   FaHeart,
   FaRegHeart,
-  FaTimes,
 } from "react-icons/fa";
 import { products } from "../data/data";
-
-// Mock cart items (using actual product data)
-const initialCartItems = [
-  {
-    id: 1,
-    productId: 1,
-    name: "Radiant Glow Serum",
-    category: "Serums",
-    price: 68,
-    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=200&h=200&fit=crop&crop=center",
-    quantity: 1,
-    inStock: true,
-  },
-  {
-    id: 2,
-    productId: 2,
-    name: "Hydra Boost Moisturizer",
-    category: "Moisturizers",
-    price: 52,
-    image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=200&h=200&fit=crop&crop=center",
-    quantity: 2,
-    inStock: true,
-  },
-  {
-    id: 3,
-    productId: 3,
-    name: "Velvet Matte Lipstick",
-    category: "Makeup",
-    price: 24,
-    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=200&h=200&fit=crop&crop=center",
-    quantity: 1,
-    inStock: true,
-  },
-];
 
 // Related products (for "You May Also Like" section)
 const relatedProducts = products.filter((p) => p.badge === "Bestseller").slice(0, 4);
 
 const Cart = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const {
+    cartItems,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    addToCart,
+    getCartTotal,
+  } = useCart();
+
+  // Local state for promo and wishlist
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState({});
 
   // Calculate totals
-  const subtotal = useMemo(() => {
-    return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  }, [cartItems]);
+  const subtotal = useMemo(() => getCartTotal(), [cartItems, getCartTotal]);
 
   const shipping = subtotal > 50 ? 0 : 6;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax - discount;
-
-  // Update quantity
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  // Remove item
-  const removeItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  // Clear cart
-  const clearCart = () => {
-    if (cartItems.length === 0) return;
-    if (window.confirm("Are you sure you want to clear your cart?")) {
-      setCartItems([]);
-    }
-  };
 
   // Apply promo code
   const handleApplyPromo = () => {
@@ -231,7 +180,7 @@ const Cart = () => {
                         <div className="flex flex-wrap items-start justify-between gap-2">
                           <div>
                             <p className="text-xs text-rose-400 font-medium uppercase tracking-wider">
-                              {item.category}
+                              {item.category || "Product"}
                             </p>
                             <h3 className="font-semibold text-gray-800 text-base sm:text-lg">
                               {item.name}
@@ -287,7 +236,7 @@ const Cart = () => {
 
                           {/* Remove Button */}
                           <button
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => removeFromCart(item.id)}
                             className="p-2 text-gray-400 hover:text-rose-500 transition"
                           >
                             <FaTrashAlt className="text-sm" />
@@ -447,6 +396,11 @@ const Cart = () => {
                       <p className="text-sm text-rose-500 font-bold">${product.price}</p>
                     </Link>
                     <button
+                      onClick={() => {
+                        if (!isInCart) {
+                          addToCart(product, 1);
+                        }
+                      }}
                       disabled={isInCart}
                       className={`mt-2 w-full py-1.5 rounded-full text-sm font-medium transition ${
                         isInCart

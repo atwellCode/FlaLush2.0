@@ -13,11 +13,13 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 import { products } from "../data/data";
+import { useCart } from "../context/CartContext";
 import ProductCard from "../components/ProductCard";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const product = products.find((p) => p.id === parseInt(id));
 
   const [selectedImage, setSelectedImage] = useState(product?.image || "");
@@ -37,7 +39,7 @@ const ProductDetail = () => {
     }
   }, [product]);
 
-  // ⚡ RESET STATE WHEN PRODUCT CHANGES ⚡
+  // Reset state when product changes
   useEffect(() => {
     if (product) {
       const firstImage = product.image || (product.images && product.images[0]) || "";
@@ -45,7 +47,6 @@ const ProductDetail = () => {
       setQuantity(1);
       setActiveTab("description");
       setShowAddedMessage(false);
-      // If you want to keep wishlist per product, you'd need a different approach
     }
   }, [product]);
 
@@ -76,9 +77,11 @@ const ProductDetail = () => {
   const imageList = images && images.length > 0 ? images : [product.image];
 
   const handleAddToCart = () => {
-    setShowAddedMessage(true);
-    setTimeout(() => setShowAddedMessage(false), 3000);
-    console.log(`Added ${quantity} x ${name} to cart`);
+    if (inStock) {
+      addToCart(product, quantity);
+      setShowAddedMessage(true);
+      setTimeout(() => setShowAddedMessage(false), 3000);
+    }
   };
 
   const handleWishlist = () => {
@@ -155,7 +158,7 @@ const ProductDetail = () => {
       exit={{ opacity: 0 }}
       className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50"
     >
-      {/* Mobile sticky cart (same as before) */}
+      {/* Mobile sticky cart */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-rose-200/30 p-4 z-40 shadow-lg">
         <div className="flex items-center gap-4">
           <div className="flex-1">
@@ -174,7 +177,7 @@ const ProductDetail = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pb-24 lg:pb-8">
-        {/* Breadcrumb & Back (unchanged) */}
+        {/* Breadcrumb */}
         <nav className="text-sm text-gray-400 mb-6 flex items-center gap-2">
           <Link to="/" className="hover:text-rose-500 transition">Home</Link>
           <span>/</span>
@@ -239,7 +242,7 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Right Column - Product Info (unchanged) */}
+          {/* Right Column - Product Info */}
           <div className="space-y-6">
             <div className="flex items-center gap-2 text-sm text-rose-500 font-medium">
               <FaLeaf className="text-xs" />
@@ -372,7 +375,6 @@ const ProductDetail = () => {
                   key={product.id}
                   product={product}
                   index={index}
-                  onShopClick={() => navigate(`/product/${product.id}`)}
                 />
               ))}
             </div>

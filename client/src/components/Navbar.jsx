@@ -1,9 +1,10 @@
+// src/components/Navbar.jsx
 import { useState, useEffect, useRef, useCallback } from "react";
-import { NavLink } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaShoppingCart,
-  FaHeart,
   FaUser,
   FaBars,
   FaTimes,
@@ -12,12 +13,15 @@ import {
 } from "react-icons/fa";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef(null);
   const dropdownRef = useRef(null);
+  const { getCartCount } = useCart();
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -50,7 +54,7 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close mobile menu on escape key
+  // Close on Escape
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") {
@@ -75,12 +79,23 @@ const Navbar = () => {
     };
   }, [menuOpen]);
 
+  // Handle search submit
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
+
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
-        ? "bg-gradient-to-r from-rose-600/95 to-rose-700/95 backdrop-blur-xl shadow-2xl"
-        : "bg-gradient-to-r from-rose-600 to-rose-700 shadow-lg"
-        }`}
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-gradient-to-r from-rose-600/95 to-rose-700/95 backdrop-blur-xl shadow-2xl"
+          : "bg-gradient-to-r from-rose-600 to-rose-700 shadow-lg"
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
@@ -92,7 +107,6 @@ const Navbar = () => {
             <span className="relative z-10">
               Flu<span className="text-rose-100">Lush</span>
             </span>
-            {/* Subtle glow behind logo */}
             <motion.span
               className="absolute -inset-2 rounded-full bg-rose-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
               animate={{ scale: [1, 1.1, 1] }}
@@ -102,44 +116,40 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8 font-['Manrope']">
-            {navLinks.map((item) => {
-              const isActive = (match) => !!match;
-              return (
-                <NavLink
-                  key={item.name}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `relative font-medium text-white transition-colors duration-300 ${isActive ? "text-rose-100" : "hover:text-rose-100"
-                    }`
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      {item.name}
-                      {/* Animated underline - active */}
+            {navLinks.map((item) => (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                className={({ isActive }) =>
+                  `relative font-medium text-white transition-colors duration-300 ${
+                    isActive ? "text-rose-100" : "hover:text-rose-100"
+                  }`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    {item.name}
+                    <motion.span
+                      className="absolute -bottom-1 left-0 h-0.5 bg-rose-200 rounded-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: isActive ? "100%" : "0%" }}
+                      transition={{ duration: 0.3 }}
+                    />
+                    {!isActive && (
                       <motion.span
-                        className="absolute -bottom-1 left-0 h-0.5 bg-rose-200 rounded-full"
+                        className="absolute -bottom-1 left-0 h-0.5 bg-rose-200/50 rounded-full"
                         initial={{ width: 0 }}
-                        animate={{ width: isActive ? "100%" : "0%" }}
+                        whileHover={{ width: "100%" }}
                         transition={{ duration: 0.3 }}
                       />
-                      {/* Hover underline - non-active */}
-                      {!isActive && (
-                        <motion.span
-                          className="absolute -bottom-1 left-0 h-0.5 bg-rose-200/50 rounded-full"
-                          initial={{ width: 0 }}
-                          whileHover={{ width: "100%" }}
-                          transition={{ duration: 0.3 }}
-                        />
-                      )}
-                    </>
-                  )}
-                </NavLink>
-              );
-            })}
+                    )}
+                  </>
+                )}
+              </NavLink>
+            ))}
           </nav>
 
-          {/* Desktop Icons + Search */}
+          {/* Desktop Icons */}
           <div className="hidden md:flex items-center gap-4 text-white">
             {/* Search Toggle */}
             <div ref={searchRef} className="relative">
@@ -152,46 +162,40 @@ const Navbar = () => {
               </button>
               <AnimatePresence>
                 {searchOpen && (
-                  <motion.div
+                  <motion.form
                     initial={{ opacity: 0, scale: 0.9, y: -10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                    onSubmit={handleSearchSubmit}
                     className="absolute right-0 top-full mt-3 w-72 bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-rose-200/30 p-2 overflow-hidden"
                   >
                     <input
                       type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search products..."
                       className="w-full px-4 py-2 bg-transparent text-gray-700 placeholder-gray-400 focus:outline-none"
                       autoFocus
                     />
-                  </motion.div>
+                  </motion.form>
                 )}
               </AnimatePresence>
             </div>
 
+            {/* Cart Icon – links to /cart */}
             <NavLink
-              to="/wishlist"
-              className="text-xl transition hover:text-rose-100 relative"
-            >
-              <FaHeart />
-              <span className="absolute -top-2 -right-3 flex h-4 w-4 items-center justify-center rounded-full bg-amber-300 text-[10px] font-bold text-rose-600">
-                3
-              </span>
-            </NavLink>
-
-            <NavLink
-              to="/checkout"
+              to="/cart"
               className="relative text-xl transition hover:text-rose-100"
             >
               <FaShoppingCart />
               <motion.span
-                key={2}
+                key={getCartCount()}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="absolute -top-2 -right-3 flex h-4 w-4 items-center justify-center rounded-full bg-amber-300 text-[10px] font-bold text-rose-600"
+                className="absolute -top-2 -right-3 flex h-5 w-5 items-center justify-center rounded-full bg-amber-300 text-[10px] font-bold text-rose-600"
               >
-                2
+                {getCartCount()}
               </motion.span>
             </NavLink>
 
@@ -227,13 +231,6 @@ const Navbar = () => {
                     >
                       My Orders
                     </NavLink>
-                    <NavLink
-                      to="/wishlist"
-                      className="block px-4 py-2 text-gray-700 hover:bg-rose-50 transition"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Wishlist
-                    </NavLink>
                     <hr className="border-rose-100" />
                     <button
                       className="block w-full text-left px-4 py-2 text-rose-500 hover:bg-rose-50 transition"
@@ -258,11 +255,10 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu with Overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -270,7 +266,6 @@ const Navbar = () => {
               className="fixed inset-0 bg-black/30 backdrop-blur-sm md:hidden z-40"
               onClick={() => setMenuOpen(false)}
             />
-            {/* Menu */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -297,7 +292,8 @@ const Navbar = () => {
                     to={item.path}
                     onClick={() => setMenuOpen(false)}
                     className={({ isActive }) =>
-                      `text-lg font-medium transition text-white ${isActive ? "text-rose-100" : "hover:text-rose-100"
+                      `text-lg font-medium transition text-white ${
+                        isActive ? "text-rose-100" : "hover:text-rose-100"
                       }`
                     }
                   >
@@ -305,27 +301,13 @@ const Navbar = () => {
                   </NavLink>
                 ))}
                 <hr className="border-rose-400/30 my-2" />
+                {/* Cart link in mobile */}
                 <NavLink
-                  to="/wishlist"
+                  to="/cart"
                   onClick={() => setMenuOpen(false)}
                   className="flex items-center gap-3 text-white transition hover:text-rose-100"
                 >
-                  <FaHeart /> Wishlist
-                </NavLink>
-                <NavLink
-                  to="/cart"
-                  className="relative text-xl transition hover:text-rose-100"
-                >
-                  <FaShoppingCart />
-                  <motion.span
-                    key={2}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="absolute -top-2 -right-3 flex h-5 w-5 items-center justify-center rounded-full bg-amber-300 text-[10px] font-bold text-rose-600"
-                  >
-                    {cartItemsCount}
-                  </motion.span>
+                  <FaShoppingCart /> Cart ({getCartCount()})
                 </NavLink>
                 <NavLink
                   to="/login"

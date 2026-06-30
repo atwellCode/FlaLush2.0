@@ -1,7 +1,8 @@
 // src/pages/Login.jsx
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom"; // 👈 added useLocation
+import { useAuth } from "../context/AuthContext"; // 👈 import useAuth
 import {
   FaEnvelope,
   FaLock,
@@ -17,6 +18,10 @@ import {
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // 👈 get location for redirect
+  const { login } = useAuth(); // 👈 get login function from context
+  const from = location.state?.from?.pathname || "/"; // redirect to this page after login
+
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -48,22 +53,27 @@ const Login = () => {
     });
   };
 
+  // ─── LOGIN HANDLER ────────────────────────────────
   const handleLoginSubmit = (e) => {
     e.preventDefault();
+    // Call login from context – this sets the global user
+    login({ name: "User", email: loginData.email });
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
-      navigate("/");
-    }, 2000);
+      navigate(from, { replace: true }); // redirect to the page they came from
+    }, 1500);
   };
 
+  // ─── SIGNUP HANDLER ───────────────────────────────
   const handleSignupSubmit = (e) => {
     e.preventDefault();
+    login({ name: signupData.name, email: signupData.email });
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
-      setIsLogin(true);
-    }, 2000);
+      navigate(from, { replace: true });
+    }, 1500);
   };
 
   const toggleMode = () => {
@@ -73,7 +83,7 @@ const Login = () => {
     setShowConfirmPassword(false);
   };
 
-  // Animation variants
+  // ─── ANIMATION VARIANTS ──────────────────────────
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -107,6 +117,7 @@ const Login = () => {
     }),
   };
 
+  // ─── UI ────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50 flex items-center justify-center px-4 py-16 relative overflow-hidden">
       {/* Decorative elements */}
